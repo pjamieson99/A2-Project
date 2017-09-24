@@ -1,0 +1,11 @@
+c:\users\peter\documents\visual studio 2015\Projects\Physics\Physics\bin\Debug\Physics.exe.config
+c:\users\peter\documents\visual studio 2015\Projects\Physics\Physics\bin\Debug\Physics.exe
+c:\users\peter\documents\visual studio 2015\Projects\Physics\Physics\bin\Debug\Physics.pdb
+c:\users\peter\documents\visual studio 2015\Projects\Physics\Physics\bin\Debug\Physics.xml
+c:\users\peter\documents\visual studio 2015\Projects\Physics\Physics\obj\Debug\Physics.vbprojResolveAssemblyReference.cache
+c:\users\peter\documents\visual studio 2015\Projects\Physics\Physics\obj\Debug\Physics.Form1.resources
+c:\users\peter\documents\visual studio 2015\Projects\Physics\Physics\obj\Debug\Physics.Resources.resources
+c:\users\peter\documents\visual studio 2015\Projects\Physics\Physics\obj\Debug\Physics.vbproj.GenerateResource.Cache
+c:\users\peter\documents\visual studio 2015\Projects\Physics\Physics\obj\Debug\Physics.exe
+c:\users\peter\documents\visual studio 2015\Projects\Physics\Physics\obj\Debug\Physics.xml
+c:\users\peter\documents\visual studio 2015\Projects\Physics\Physics\obj\Debug\Physics.pdb
