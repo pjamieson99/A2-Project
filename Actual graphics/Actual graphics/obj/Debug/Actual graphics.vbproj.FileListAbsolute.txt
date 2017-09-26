@@ -1,0 +1,22 @@
+\\svrhome1.curricula.local\j\pjamieson\home\visual studio 2017\Projects\Actual graphics\Actual graphics\bin\Debug\Actual graphics.exe.config
+\\svrhome1.curricula.local\j\pjamieson\home\visual studio 2017\Projects\Actual graphics\Actual graphics\bin\Debug\Actual graphics.exe
+\\svrhome1.curricula.local\j\pjamieson\home\visual studio 2017\Projects\Actual graphics\Actual graphics\bin\Debug\Actual graphics.pdb
+\\svrhome1.curricula.local\j\pjamieson\home\visual studio 2017\Projects\Actual graphics\Actual graphics\bin\Debug\Actual graphics.xml
+\\svrhome1.curricula.local\j\pjamieson\home\visual studio 2017\Projects\Actual graphics\Actual graphics\obj\Debug\Actual graphics.vbprojResolveAssemblyReference.cache
+\\svrhome1.curricula.local\j\pjamieson\home\visual studio 2017\Projects\Actual graphics\Actual graphics\obj\Debug\Actual_graphics.Form1.resources
+\\svrhome1.curricula.local\j\pjamieson\home\visual studio 2017\Projects\Actual graphics\Actual graphics\obj\Debug\Actual_graphics.Resources.resources
+\\svrhome1.curricula.local\j\pjamieson\home\visual studio 2017\Projects\Actual graphics\Actual graphics\obj\Debug\Actual graphics.vbproj.GenerateResource.Cache
+\\svrhome1.curricula.local\j\pjamieson\home\visual studio 2017\Projects\Actual graphics\Actual graphics\obj\Debug\Actual graphics.exe
+\\svrhome1.curricula.local\j\pjamieson\home\visual studio 2017\Projects\Actual graphics\Actual graphics\obj\Debug\Actual graphics.xml
+\\svrhome1.curricula.local\j\pjamieson\home\visual studio 2017\Projects\Actual graphics\Actual graphics\obj\Debug\Actual graphics.pdb
+C:\Users\Peter\Documents\Visual Studio 2015\Projects\A2-Project-create_initial_clock\Actual graphics\Actual graphics\bin\Debug\Actual graphics.exe.config
+C:\Users\Peter\Documents\Visual Studio 2015\Projects\A2-Project-create_initial_clock\Actual graphics\Actual graphics\obj\Debug\Actual graphics.exe
+C:\Users\Peter\Documents\Visual Studio 2015\Projects\A2-Project-create_initial_clock\Actual graphics\Actual graphics\obj\Debug\Actual graphics.xml
+C:\Users\Peter\Documents\Visual Studio 2015\Projects\A2-Project-create_initial_clock\Actual graphics\Actual graphics\obj\Debug\Actual graphics.pdb
+C:\Users\Peter\Documents\Visual Studio 2015\Projects\A2-Project-create_initial_clock\Actual graphics\Actual graphics\bin\Debug\Actual graphics.exe
+C:\Users\Peter\Documents\Visual Studio 2015\Projects\A2-Project-create_initial_clock\Actual graphics\Actual graphics\bin\Debug\Actual graphics.pdb
+C:\Users\Peter\Documents\Visual Studio 2015\Projects\A2-Project-create_initial_clock\Actual graphics\Actual graphics\bin\Debug\Actual graphics.xml
+C:\Users\Peter\Documents\Visual Studio 2015\Projects\A2-Project-create_initial_clock\Actual graphics\Actual graphics\obj\Debug\Actual graphics.vbprojResolveAssemblyReference.cache
+C:\Users\Peter\Documents\Visual Studio 2015\Projects\A2-Project-create_initial_clock\Actual graphics\Actual graphics\obj\Debug\Actual_graphics.Form1.resources
+C:\Users\Peter\Documents\Visual Studio 2015\Projects\A2-Project-create_initial_clock\Actual graphics\Actual graphics\obj\Debug\Actual_graphics.Resources.resources
+C:\Users\Peter\Documents\Visual Studio 2015\Projects\A2-Project-create_initial_clock\Actual graphics\Actual graphics\obj\Debug\Actual graphics.vbproj.GenerateResource.Cache
