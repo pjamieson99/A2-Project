@@ -1,0 +1,11 @@
+\\svrhome1.curricula.local\j\pjamieson\home\visual studio 2017\Projects\redone project_cleaner\redone project_cleaner\bin\Debug\redone project_cleaner.exe.config
+\\svrhome1.curricula.local\j\pjamieson\home\visual studio 2017\Projects\redone project_cleaner\redone project_cleaner\bin\Debug\redone project_cleaner.exe
+\\svrhome1.curricula.local\j\pjamieson\home\visual studio 2017\Projects\redone project_cleaner\redone project_cleaner\bin\Debug\redone project_cleaner.pdb
+\\svrhome1.curricula.local\j\pjamieson\home\visual studio 2017\Projects\redone project_cleaner\redone project_cleaner\bin\Debug\redone project_cleaner.xml
+\\svrhome1.curricula.local\j\pjamieson\home\visual studio 2017\Projects\redone project_cleaner\redone project_cleaner\obj\Debug\redone project_cleaner.vbprojResolveAssemblyReference.cache
+\\svrhome1.curricula.local\j\pjamieson\home\visual studio 2017\Projects\redone project_cleaner\redone project_cleaner\obj\Debug\redone_project_cleaner.Form1.resources
+\\svrhome1.curricula.local\j\pjamieson\home\visual studio 2017\Projects\redone project_cleaner\redone project_cleaner\obj\Debug\redone_project_cleaner.Resources.resources
+\\svrhome1.curricula.local\j\pjamieson\home\visual studio 2017\Projects\redone project_cleaner\redone project_cleaner\obj\Debug\redone project_cleaner.vbproj.GenerateResource.Cache
+\\svrhome1.curricula.local\j\pjamieson\home\visual studio 2017\Projects\redone project_cleaner\redone project_cleaner\obj\Debug\redone project_cleaner.exe
+\\svrhome1.curricula.local\j\pjamieson\home\visual studio 2017\Projects\redone project_cleaner\redone project_cleaner\obj\Debug\redone project_cleaner.xml
+\\svrhome1.curricula.local\j\pjamieson\home\visual studio 2017\Projects\redone project_cleaner\redone project_cleaner\obj\Debug\redone project_cleaner.pdb
