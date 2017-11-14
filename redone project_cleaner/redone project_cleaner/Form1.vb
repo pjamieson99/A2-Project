@@ -66,6 +66,10 @@
 
 
 
+
+
+
+
         'set points to body 
         For x = 0 To GroundLegs
             Body.SetPoints(Line(x, 1), x)
@@ -88,76 +92,6 @@
             Next
         Next
 
-
-
-
-        For x = 0 To 2
-            Line(x, 1).LYpos = Body.Bypos1
-            Line(x, 0).LYpos = Line(x, 1).LYpos + 100
-            Line(x, 1).LXpos = Body.StaticConnections(x).X
-            Line(x, 0).LXpos = Line(x, 1).LXpos
-        Next
-
-
-        BodyRise = 0
-        'check which side leg is on when on floor
-        For x = 0 To GroundLegs
-            If Line(x, 0).CheckFloor(floor) = True And Line(x, 0).Lpx2 < Body.CoM.X Then
-                Line(x, 0).LeftSide = True
-                Body.Left = True
-            ElseIf Line(x, 0).CheckFloor(floor) = True And Line(x, 0).Lpx2 > Body.CoM.X Then
-                Line(x, 0).RightSide = True
-                Body.Right = True
-            ElseIf Line(x, 0).CheckFloor(floor) = True And Line(x, 0).Lpx2 = Body.CoM.X Then
-                Line(x, 0).RightSide = True
-                Line(x, 0).LeftSide = True
-                Body.Right = True
-                Body.Left = True
-            Else
-                Line(x, 0).LeftSide = False
-                Line(x, 0).RightSide = False
-                Body.Left = False
-                Body.Right = False
-
-            End If
-        Next
-
-        'find pivot point and fall of it
-        For x = GroundLegs To 0 Step -1
-            If Line(x, 0).LeftSide = True And Line(x, 0).RightSide = False Then
-                Body.FallRight(Line(x, 0).Lp2, g)
-            ElseIf Line(x, 0).LeftSide = False And Line(x, 0).RightSide = True Then
-
-            End If
-        Next
-        For x = 0 To GroundLegs
-            If Line(x, 0).LeftSide = False And Line(x, 0).RightSide = True Then
-                Body.FallLeft(Line(x, 0).Lp2, g)
-            End If
-        Next
-
-        Body.left = False
-        Body.right = False
-
-        'set points to body 
-        For x = 0 To GroundLegs
-            Body.SetPoints(Line(x, 1), x)
-        Next
-
-        'attach the bottom legs to the top legs and move with them
-        For x = 0 To 2
-            Line(x, 0).Lpx2 += Line(x, 1).Lpx2 - Line(x, 0).Lpx1
-            Line(x, 0).Lpx1 = Line(x, 1).Lpx2
-            Line(x, 0).Lpy2 += Line(x, 1).Lpy2 - Line(x, 0).Lpy1
-            Line(x, 0).Lpy1 = Line(x, 1).Lpy2
-        Next
-
-        For x = 0 To 2
-            Line(x, 1).LYpos = Body.Bypos1
-            Line(x, 0).LYpos = Line(x, 1).LYpos + 100
-            Line(x, 1).LXpos = Body.StaticConnections(x).X
-            Line(x, 0).LXpos = Line(x, 1).LXpos
-        Next
 
         'find furthest line past floor
         BodyRise = Line(0, 0).Lpy2
@@ -182,11 +116,37 @@
 
         End If
 
+        'check which side leg is on when on floor
+        For x = 0 To GroundLegs
+            If Line(x, 0).CheckFloor(floor) = True And Line(x, 0).Lpx1 < Body.CoM.X Then
+                Line(x, 0).LeftSide = True
+            ElseIf Line(x, 0).CheckFloor(floor) = True And Line(x, 0).Lpx1 > Body.CoM.X Then
+                Line(x, 0).RightSide = True
+            ElseIf Line(x, 0).CheckFloor(floor) = True And Line(x, 0).Lpx1 = Body.CoM.X Then
+                Line(x, 0).RightSide = True
+                Line(x, 0).LeftSide = True
+            Else
+                Line(x, 0).LeftSide = False
+                Line(x, 0).RightSide = False
+            End If
+        Next
+
+        'find pivot point and fall of it
+        For x = GroundLegs To 0 Step -1
+            If Line(x, 0).LeftSide = True And Line(x, 0).RightSide = False Then
+                Body.FallRight(Line(x, 0).Lp2, g)
+            ElseIf Line(x, 0).LeftSide = False And Line(x, 0).RightSide = True Then
+
+            End If
+        Next
+        For x = 0 To GroundLegs
+            If Line(x, 0).LeftSide = False And Line(x, 0).RightSide = True Then
+                Body.FallLeft(Line(x, 0).Lp2, g)
+            End If
+        Next
         'set points to body 
         For x = 0 To GroundLegs
-
             Body.SetPoints(Line(x, 1), x)
-
         Next
 
         'attach the bottom legs to the top legs and move with them
@@ -218,7 +178,7 @@
 
     End Sub
 
-    Private Sub Display_Click(sender As Object, e As EventArgs) Handles Display.Click
 
-    End Sub
+
+
 End Class

@@ -15,9 +15,6 @@
     Private px2 As Double
     Private p1 As PointF
     Private p2 As PointF
-    Public left As Boolean
-    Public right As Boolean
-
     Public Sub New(x1, y1, x2, y2)
 
         Bypos1 = y1
@@ -99,10 +96,11 @@
 
     Public Sub SetPoints(line As CLeg, x As Integer)
         'set points to body 
-        line.Lpx2 += connections(x).X - line.Lpx1
-        line.Lpy2 += connections(x).Y - line.Lpy1
+        line.Lpx2 += connections(x).X - line.Lp1.X
+        line.Lp2.Y += connections(x).Y - line.Lp1.Y
+        line.Lpy2 += connections(x).Y - line.Lp1.Y
         line.Lp1 = connections(x)
-        ' line.LYpos = line.Lp1.Y
+        line.LYpos = line.Lp1.Y
         line.Lpy1 = line.Lp1.Y
         line.Lpx1 = line.Lp1.X
 
