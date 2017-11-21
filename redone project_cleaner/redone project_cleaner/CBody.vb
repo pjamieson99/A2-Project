@@ -1,6 +1,6 @@
 ﻿Public Class CBody
-    Private Bxpos1
-    Private Bxpos2
+    Public Bxpos1
+    Public Bxpos2
     Public Bypos1
     Public Bypos2
     Public CoM As PointF
@@ -8,13 +8,16 @@
     Public connections(2) As PointF
     Public StaticConnections(2) As PointF
     Public Hypotenuse As Double
-    Private AngleIncrease As Integer = 0
+    Public AngleIncrease As Integer = 0
     Public Bpy1 As Double
     Public Bpy2 As Double
-    Private px1 As Double
-    Private px2 As Double
+    Public Bpx1 As Double
+    Public Bpx2 As Double
     Private p1 As PointF
     Private p2 As PointF
+
+    Public LeftMomentum As Double = 0.1
+    Public RightMomentum As Double = 0.1
     Public Sub New(x1, y1, x2, y2)
 
         Bypos1 = y1
@@ -25,8 +28,8 @@
         yspeed = 0
         p1 = New Point(x1, y1)
         p2 = New Point(x2, y2)
-        px1 = x1
-        px2 = x2
+        Bpx1 = x1
+        Bpx2 = x2
         Bpy1 = y1
         Bpy2 = y2
 
@@ -40,37 +43,40 @@
         Next
     End Sub
 
-    Sub FallRight(pivot As PointF, g As Graphics)
-        AngleIncrease += 1
+    Sub FallRight(pivotx As Double, pivoty As Double, g As Graphics)
+        AngleIncrease -= 1 * RightMomentum
+        RightMomentum += 0.2
         For x = 0 To 2
-            connections(x).X = ((StaticConnections(x).X - pivot.X) * Math.Cos((360 - 1) * AngleIncrease * Math.PI / 180)) + ((StaticConnections(x).Y - pivot.Y) * Math.Sin((360 - 1) * AngleIncrease * Math.PI / 180)) + pivot.X
-            connections(x).Y = ((StaticConnections(x).X - pivot.X) * (-Math.Sin((360 - 1) * AngleIncrease * Math.PI / 180))) + ((StaticConnections(x).Y - pivot.Y) * Math.Cos((360 - 1) * AngleIncrease * Math.PI / 180)) + pivot.Y
+            connections(x).X = ((StaticConnections(x).X - pivotx) * Math.Cos(AngleIncrease * Math.PI / 180)) + ((StaticConnections(x).Y - pivoty) * Math.Sin(AngleIncrease * Math.PI / 180)) + pivotx
+            connections(x).Y = ((StaticConnections(x).X - pivotx) * (-Math.Sin(AngleIncrease * Math.PI / 180))) + ((StaticConnections(x).Y - pivoty) * Math.Cos(AngleIncrease * Math.PI / 180)) + pivoty
         Next
-        px1 = ((Bxpos1 - pivot.X) * Math.Cos((360 - 1) * AngleIncrease * Math.PI / 180)) + ((Bypos1 - pivot.Y) * Math.Sin((360 - 1) * AngleIncrease * Math.PI / 180)) + pivot.X
-        Bpy1 = ((Bxpos1 - pivot.X) * (-Math.Sin((360 - 1) * AngleIncrease * Math.PI / 180))) + ((Bypos1 - pivot.Y) * Math.Cos((360 - 1) * AngleIncrease * Math.PI / 180)) + pivot.Y
-        px2 = ((Bxpos2 - pivot.X) * Math.Cos((360 - 1) * AngleIncrease * Math.PI / 180)) + ((Bypos2 - pivot.Y) * Math.Sin((360 - 1) * AngleIncrease * Math.PI / 180)) + pivot.X
-        Bpy2 = ((Bxpos2 - pivot.X) * (-Math.Sin((360 - 1) * AngleIncrease * Math.PI / 180))) + ((Bypos2 - pivot.Y) * Math.Cos((360 - 1) * AngleIncrease * Math.PI / 180)) + pivot.Y
+        Bpx1 = ((Bxpos1 - pivotx) * Math.Cos(AngleIncrease * Math.PI / 180)) + ((Bypos1 - pivoty) * Math.Sin(AngleIncrease * Math.PI / 180)) + pivotx
+        Bpy1 = ((Bxpos1 - pivotx) * (-Math.Sin(AngleIncrease * Math.PI / 180))) + ((Bypos1 - pivoty) * Math.Cos(AngleIncrease * Math.PI / 180)) + pivoty
+        Bpx2 = ((Bxpos2 - pivotx) * Math.Cos(AngleIncrease * Math.PI / 180)) + ((Bypos2 - pivoty) * Math.Sin(AngleIncrease * Math.PI / 180)) + pivotx
+        Bpy2 = ((Bxpos2 - pivotx) * (-Math.Sin(AngleIncrease * Math.PI / 180))) + ((Bypos2 - pivoty) * Math.Cos(AngleIncrease * Math.PI / 180)) + pivoty
 
 
     End Sub
 
-    Sub FallLeft(pivot As PointF, G As Graphics)
-        AngleIncrease -= 1
+    Sub FallLeft(pivotx As Double, pivoty As Double, G As Graphics)
+        AngleIncrease += 1 * LeftMomentum
+        LeftMomentum += 0.2
         For x = 0 To 2
-            connections(x).X = ((StaticConnections(x).X - pivot.X) * Math.Cos((360 - 1) * AngleIncrease * Math.PI / 180)) + ((StaticConnections(x).Y - pivot.Y) * Math.Sin((360 - 1) * AngleIncrease * Math.PI / 180)) + pivot.X
-            connections(x).Y = ((StaticConnections(x).X - pivot.X) * (-Math.Sin((360 - 1) * AngleIncrease * Math.PI / 180))) + ((StaticConnections(x).Y - pivot.Y) * Math.Cos((360 - 1) * AngleIncrease * Math.PI / 180)) + pivot.Y
+            connections(x).X = ((StaticConnections(x).X - pivotx) * Math.Cos(AngleIncrease * Math.PI / 180)) + ((StaticConnections(x).Y - pivoty) * Math.Sin(AngleIncrease * Math.PI / 180)) + pivotx
+            connections(x).Y = ((StaticConnections(x).X - pivotx) * (-Math.Sin(AngleIncrease * Math.PI / 180))) + ((StaticConnections(x).Y - pivoty) * Math.Cos(AngleIncrease * Math.PI / 180)) + pivoty
         Next
-        px1 = ((Bxpos1 - pivot.X) * Math.Cos((360 - 1) * AngleIncrease * Math.PI / 180)) + ((Bypos1 - pivot.Y) * Math.Sin((360 - 1) * AngleIncrease * Math.PI / 180)) + pivot.X
-        Bpy1 = ((Bxpos1 - pivot.X) * (-Math.Sin((360 - 1) * AngleIncrease * Math.PI / 180))) + ((Bypos1 - pivot.Y) * Math.Cos((360 - 1) * AngleIncrease * Math.PI / 180)) + pivot.Y
-        px2 = ((Bxpos2 - pivot.X) * Math.Cos((360 - 1) * AngleIncrease * Math.PI / 180)) + ((Bypos2 - pivot.Y) * Math.Sin((360 - 1) * AngleIncrease * Math.PI / 180)) + pivot.X
-        Bpy2 = ((Bxpos2 - pivot.X) * (-Math.Sin((360 - 1) * AngleIncrease * Math.PI / 180))) + ((Bypos2 - pivot.Y) * Math.Cos((360 - 1) * AngleIncrease * Math.PI / 180)) + pivot.Y
+        Bpx1 = ((Bxpos1 - pivotx) * Math.Cos(AngleIncrease * Math.PI / 180)) + ((Bypos1 - pivoty) * Math.Sin(AngleIncrease * Math.PI / 180)) + pivotx
+        Bpy1 = ((Bxpos1 - pivotx) * (-Math.Sin(AngleIncrease * Math.PI / 180))) + ((Bypos1 - pivoty) * Math.Cos(AngleIncrease * Math.PI / 180)) + pivoty
+        Bpx2 = ((Bxpos2 - pivotx) * Math.Cos(AngleIncrease * Math.PI / 180)) + ((Bypos2 - pivoty) * Math.Sin(AngleIncrease * Math.PI / 180)) + pivotx
+        Bpy2 = ((Bxpos2 - pivotx) * (-Math.Sin(AngleIncrease * Math.PI / 180))) + ((Bypos2 - pivoty) * Math.Cos(AngleIncrease * Math.PI / 180)) + pivoty
+
     End Sub
 
     Public Sub draw(g As Graphics)
         p1.Y = Bpy1
-        p1.X = px1
+        p1.X = Bpx1
         p2.Y = Bpy2
-        p2.X = px2
+        p2.X = Bpx2
 
         g.DrawLine(Pens.Black, p1.X, p1.Y, p2.X, p2.Y)
         p1.X = Bxpos1
@@ -92,20 +98,22 @@
         Bpy1 += yspeed
         Bpy2 += yspeed
         yspeed += 1
+        ResetCoM()
     End Sub
 
     Public Sub SetPoints(line As CLeg, x As Integer)
         'set points to body 
-        line.Lpx2 += connections(x).X - line.Lp1.X
-        line.Lp2.Y += connections(x).Y - line.Lp1.Y
-        line.Lpy2 += connections(x).Y - line.Lp1.Y
+        line.Lpx2 += connections(x).X - line.Lpx1
+        line.Lpy2 += connections(x).Y - line.Lpy1
         line.Lp1 = connections(x)
-        line.LYpos = line.Lp1.Y
+        ' line.LYpos = line.Lp1.Y
         line.Lpy1 = line.Lp1.Y
         line.Lpx1 = line.Lp1.X
 
     End Sub
 
-
+    Sub ResetCoM()
+        CoM = New Point((Bpx1 + Bpx2) / 2, (Bpy1 + Bpy2) / 2)
+    End Sub
 
 End Class

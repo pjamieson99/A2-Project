@@ -14,8 +14,10 @@
     Public GoThroughClock As Integer
     Public up As Boolean = True
     Public down As Boolean = False
-    Public LeftSide As Boolean
-    Public RightSide As Boolean
+    Public LeftSidex1 As Boolean
+    Public RightSidex1 As Boolean
+    Public LeftSidex2 As Boolean
+    Public RightSidex2 As Boolean
 
 
     Public Sub New(x As Integer, y As Integer, rnd As Random)
@@ -29,8 +31,8 @@
         Lp1 = New Point(LXpos, LYpos)
         Lp2 = New Point(LXpos, LYpos + 100)
         Speed = rnd.Next(1, 10)
-        clock = rnd.Next(1, 50)
-        Angle = rnd.Next(45, 170)
+        clock = rnd.Next(5, 80)
+       Angle = rnd.Next(180, 190)
         GoThroughClock = 0
 
     End Sub
@@ -50,25 +52,27 @@
 
     End Sub
 
-    Sub NewPoints()
+    Sub NewPoints(angle As Double)
+
         Lp1.X = LXpos
         Lp1.Y = LYpos
         Lp2.X = LXpos
         Lp2.Y = LYpos + 100
+
         If up = True Then
             'rotate points using rotation matrix
             increase += 1
-            Lpx1 = ((Lp1.X - LXpos) * Math.Cos(Speed * increase * Math.PI / 180) + ((Lp1.Y - LYpos) * Math.Sin(Speed * increase * Math.PI / 180))) + LXpos
-            Lpy1 = ((Lp1.X - LXpos) * (-Math.Sin(Speed * increase * Math.PI / 180)) + ((Lp1.Y - LYpos) * Math.Cos(Speed * increase * Math.PI / 180))) + LYpos
-            Lpx2 = ((Lp2.X - LXpos) * Math.Cos(Speed * increase * Math.PI / 180) + ((Lp2.Y - LYpos) * Math.Sin(Speed * increase * Math.PI / 180))) + LXpos
-            Lpy2 = ((Lp2.X - LXpos) * (-Math.Sin(Speed * increase * Math.PI / 180)) + ((Lp2.Y - LYpos) * Math.Cos(Speed * increase * Math.PI / 180))) + LYpos
+            Lpx1 = ((Lp1.X - LXpos) * Math.Cos((Speed * increase + angle) * Math.PI / 180) + ((Lp1.Y - LYpos) * Math.Sin((Speed * increase + angle) * Math.PI / 180))) + LXpos
+            Lpy1 = ((Lp1.X - LXpos) * (-Math.Sin((Speed * increase + angle) * Math.PI / 180)) + ((Lp1.Y - LYpos) * Math.Cos((Speed * increase + angle) * Math.PI / 180))) + LYpos
+            Lpx2 = ((Lp2.X - LXpos) * Math.Cos((Speed * increase + angle) * Math.PI / 180) + ((Lp2.Y - LYpos) * Math.Sin((Speed * increase + angle) * Math.PI / 180))) + LXpos
+            Lpy2 = ((Lp2.X - LXpos) * (-Math.Sin((Speed * increase + angle) * Math.PI / 180)) + ((Lp2.Y - LYpos) * Math.Cos((Speed * increase + angle) * Math.PI / 180))) + LYpos
 
         ElseIf down = True Then
             increase -= 1
-            Lpx1 = ((Lp1.X - LXpos) * Math.Cos(Speed * increase * Math.PI / 180) + ((Lp1.Y - LYpos) * Math.Sin(Speed * increase * Math.PI / 180))) + LXpos
-            Lpy1 = ((Lp1.X - LXpos) * (-Math.Sin(Speed * increase * Math.PI / 180)) + ((Lp1.Y - LYpos) * Math.Cos(Speed * increase * Math.PI / 180))) + LYpos
-            Lpx2 = ((Lp2.X - LXpos) * Math.Cos(Speed * increase * Math.PI / 180) + ((Lp2.Y - LYpos) * Math.Sin(Speed * increase * Math.PI / 180))) + LXpos
-            Lpy2 = ((Lp2.X - LXpos) * (-Math.Sin(Speed * increase * Math.PI / 180)) + ((Lp2.Y - LYpos) * Math.Cos(Speed * increase * Math.PI / 180))) + LYpos
+            Lpx1 = ((Lp1.X - LXpos) * Math.Cos((Speed * increase + angle) * Math.PI / 180) + ((Lp1.Y - LYpos) * Math.Sin((Speed * increase + angle) * Math.PI / 180))) + LXpos
+            Lpy1 = ((Lp1.X - LXpos) * (-Math.Sin((Speed * increase + angle) * Math.PI / 180)) + ((Lp1.Y - LYpos) * Math.Cos((Speed * increase + angle) * Math.PI / 180))) + LYpos
+            Lpx2 = ((Lp2.X - LXpos) * Math.Cos((Speed * increase + angle) * Math.PI / 180) + ((Lp2.Y - LYpos) * Math.Sin((Speed * increase + angle) * Math.PI / 180))) + LXpos
+            Lpy2 = ((Lp2.X - LXpos) * (-Math.Sin((Speed * increase + angle) * Math.PI / 180)) + ((Lp2.Y - LYpos) * Math.Cos((Speed * increase + angle) * Math.PI / 180))) + LYpos
 
         End If
 
@@ -100,7 +104,7 @@
 
 
     Function CheckFloor(floor As CFloor)
-        If floor.ypos <= Lpy1 Or floor.ypos <= Lpy2 Then
+        If floor.ypos - 4 <= Lpy1 Or floor.ypos - 4 <= Lpy2 Then
             Return True
         Else
             Return False

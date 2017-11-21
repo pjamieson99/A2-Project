@@ -12,7 +12,11 @@
     Dim P1Legs(GroundLegs) As PointF
     Dim LineDiff As Double
     Dim BodyRise As Double
-
+    Dim Friction As Integer = 0
+    Dim OldPoints(2) As Double
+    Dim NegativeFriction As Integer
+    Dim Checking As Boolean
+    Dim Escape As Boolean
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'create floor object
         floor = New CFloor(500)
@@ -53,26 +57,247 @@
 
         'draw the floor
         floor.draw(g)
-        Body.drop()
+
+
+
+
         For y = 0 To Layers
             For x = 0 To GroundLegs
                 Line(x, y).AngleLock(floor)
-                Line(x, y).NewPoints()
+
+                Line(x, y).NewPoints(Body.AngleIncrease)
+            Next
+        Next
+
+        For x = 0 To 2
+            If Line(x, 0).Lpy2 > (floor.ypos - 10) Then
+                Checking = True
+            End If
+
+
+        Next
+        If Checking = False Then
+            Console.Read()
+        End If
+
+        Checking = False
+
+        'set points to body 
+        For x = 0 To GroundLegs
+            Body.SetPoints(Line(x, 1), x)
+        Next
+
+        'attach the bottom legs to the top legs and move with them
+        For x = 0 To 2
+            Line(x, 0).Lpx2 += Line(x, 1).Lpx2 - Line(x, 0).Lpx1
+            Line(x, 0).Lpx1 = Line(x, 1).Lpx2
+            Line(x, 0).Lpy2 += Line(x, 1).Lpy2 - Line(x, 0).Lpy1
+            Line(x, 0).Lpy1 = Line(x, 1).Lpy2
+        Next
+
+        For x = 0 To 2
+            Line(x, 1).LYpos = Body.connections(x).Y
+            Line(x, 0).LYpos = Line(x, 1).LYpos + 100
+            Line(x, 1).LXpos = Body.connections(x).X
+            Line(x, 0).LXpos = Line(x, 1).LXpos
+        Next
+
+
+        BodyRise = 0
+
+
+
+        For x = 0 To 2
+            If Line(x, 0).Lpy2 > (floor.ypos - 10) Then
+                Checking = True
+            End If
+
+
+        Next
+        If Checking = False Then
+            Console.Read()
+        End If
+        Checking = False
+
+
+        'find furthest line past floor
+        BodyRise = Line(0, 0).Lpy2
+        For x = 0 To GroundLegs
+            If BodyRise <= Line(x, 0).Lpy2 Then
+                BodyRise = Line(x, 0).Lpy2
+            End If
+            If BodyRise <= Line(x, 0).Lpy1 Then
+                BodyRise = Line(x, 0).Lpy1
+            End If
+            If BodyRise <= Line(x, 1).Lpy1 Then
+                BodyRise = Line(x, 1).Lpy1
+            End If
+        Next
+
+
+        'raise body by distance between floor and line
+        If floor.ypos <= BodyRise Then
+            Body.Bpy1 -= (BodyRise - floor.ypos)
+            Body.Bpy2 -= (BodyRise - floor.ypos)
+            For x = 0 To 2
+                Body.connections(x).Y -= (BodyRise - floor.ypos)
+                Body.StaticConnections(x).Y -= (BodyRise - floor.ypos)
+            Next
+            Body.Bypos1 -= (BodyRise - floor.ypos)
+            Body.Bypos2 -= (BodyRise - floor.ypos)
+            Body.ResetCoM()
+
+        End If
+
+        'set points to body 
+        For x = 0 To GroundLegs
+            Body.SetPoints(Line(x, 1), x)
+        Next
+
+        'attach the bottom legs to the top legs and move with them
+        For x = 0 To 2
+            Line(x, 0).Lpx2 += Line(x, 1).Lpx2 - Line(x, 0).Lpx1
+            Line(x, 0).Lpx1 = Line(x, 1).Lpx2
+            Line(x, 0).Lpy2 += Line(x, 1).Lpy2 - Line(x, 0).Lpy1
+            Line(x, 0).Lpy1 = Line(x, 1).Lpy2
+        Next
+
+
+
+        For x = 0 To 2
+            Line(x, 1).LYpos = Body.connections(x).Y
+            Line(x, 0).LYpos = Line(x, 1).LYpos + 100
+            Line(x, 1).LXpos = Body.connections(x).X
+            Line(x, 0).LXpos = Line(x, 1).LXpos
+        Next
+
+        For x = 0 To 2
+            If Line(x, 0).Lpy2 > (floor.ypos - 10) Then
+                Checking = True
+            End If
+
+
+        Next
+        If Checking = False Then
+            Console.Read()
+        End If
+        Checking = False
+
+        'check which side leg is on when on floor
+        For y = 0 To 1
+            For x = 0 To GroundLegs
+                If Line(x, y).CheckFloor(floor) = True And Line(x, y).Lpx2 < Body.CoM.X Then
+                    Line(x, y).LeftSidex2 = True
+                    Body.LeftMomentum = 0.1
+                ElseIf Line(x, y).CheckFloor(floor) = True And Line(x, y).Lpx2 > Body.CoM.X Then
+                    Line(x, y).RightSidex2 = True
+                    Body.RightMomentum = 0.1
+                ElseIf Line(x, y).CheckFloor(floor) = True And Line(x, y).Lpx2 = Body.CoM.X Then
+                    Line(x, y).RightSidex2 = True
+                    Line(x, y).LeftSidex2 = True
+                    Body.RightMomentum = 0.1
+                    Body.LeftMomentum = 0.1
+                Else
+                    Line(x, y).LeftSidex2 = False
+                    Line(x, y).RightSidex2 = False
+                End If
+            Next
+        Next
+
+        For y = 0 To 1
+            For x = 0 To GroundLegs
+                If Line(x, y).CheckFloor(floor) = True And Line(x, y).Lpx1 < Body.CoM.X Then
+                    Line(x, y).LeftSidex1 = True
+                    Body.LeftMomentum = 0.1
+                ElseIf Line(x, y).CheckFloor(floor) = True And Line(x, y).Lpx1 > Body.CoM.X Then
+                    Line(x, y).RightSidex1 = True
+                    Body.RightMomentum = 0.1
+                ElseIf Line(x, y).CheckFloor(floor) = True And Line(x, y).Lpx1 = Body.CoM.X Then
+                    Line(x, y).RightSidex1 = True
+                    Line(x, y).LeftSidex1 = True
+                    Body.RightMomentum = 0.1
+                    Body.LeftMomentum = 0.1
+                Else
+                    Line(x, y).LeftSidex1 = False
+                    Line(x, y).RightSidex1 = False
+                End If
             Next
         Next
 
 
 
+        'find pivot point and fall of it
+        Escape = False
+        For y = 0 To 1
+            If Escape = True Then
+                Exit For
+            End If
+            For x = GroundLegs To 0 Step -1
+                If Line(x, y).LeftSidex2 = True And Line(x, y).RightSidex2 = False Then
+                    Body.FallRight(Line(x, y).Lpx2, Line(x, y).Lpy2, g)
+                    Escape = True
+                    Exit For
+                End If
+            Next
+        Next
+        For y = 0 To 1
+            For x = 0 To GroundLegs
+                If Line(x, 0).LeftSidex2 = False And Line(x, y).RightSidex2 = True Then
+                    Body.FallLeft(Line(x, y).Lpx2, Line(x, y).Lpy2, g)
+                    Escape = True
+                    Exit For
+
+                End If
+            Next
+        Next
+        For y = 0 To 1
+            If Escape = True Then
+                Exit For
+            End If
+            For x = GroundLegs To 0 Step -1
+                If Line(x, y).LeftSidex1 = True And Line(x, y).RightSidex1 = False Then
+                    Body.FallRight(Line(x, y).Lpx1, Line(x, y).Lpy1, g)
+                    Escape = True
+                    Exit For
+                End If
+            Next
+        Next
+
+        For y = 0 To 1
+            If Escape = True Then
+                Exit For
+            End If
+            For x = 0 To GroundLegs
+                If Line(x, 0).LeftSidex1 = False And Line(x, y).RightSidex1 = True Then
+                    Body.FallLeft(Line(x, y).Lpx1, Line(x, y).Lpy1, g)
+                    Escape = True
+                    Exit For
+
+                End If
+            Next
+        Next
 
 
+        Body.ResetCoM()
 
 
+        For x = 0 To 2
+            If Line(x, 0).Lpy2 > (floor.ypos - 10) Then
+                Checking = True
+            End If
 
 
+        Next
+        If Checking = False Then
+            Console.Read()
+        End If
+        Checking = False
 
         'set points to body 
         For x = 0 To GroundLegs
+
             Body.SetPoints(Line(x, 1), x)
+
         Next
 
         'attach the bottom legs to the top legs and move with them
@@ -92,6 +317,22 @@
             Next
         Next
 
+        Body.drop()
+
+        'set points to body 
+        For x = 0 To GroundLegs
+
+            Body.SetPoints(Line(x, 1), x)
+
+        Next
+
+        'attach the bottom legs to the top legs and move with them
+        For x = 0 To 2
+            Line(x, 0).Lpx2 += Line(x, 1).Lpx2 - Line(x, 0).Lpx1
+            Line(x, 0).Lpx1 = Line(x, 1).Lpx2
+            Line(x, 0).Lpy2 += Line(x, 1).Lpy2 - Line(x, 0).Lpy1
+            Line(x, 0).Lpy1 = Line(x, 1).Lpy2
+        Next
 
         'find furthest line past floor
         BodyRise = Line(0, 0).Lpy2
@@ -99,12 +340,30 @@
             If BodyRise <= Line(x, 0).Lpy2 Then
                 BodyRise = Line(x, 0).Lpy2
             End If
+            If BodyRise <= Line(x, 0).Lpy1 Then
+                BodyRise = Line(x, 0).Lpy1
+            End If
+            If BodyRise <= Line(x, 1).Lpy1 Then
+                BodyRise = Line(x, 1).Lpy1
+            End If
+
+
         Next
 
+        For x = 0 To 2
+            If Line(x, 0).Lpy2 > (floor.ypos - 10) Then
+                Checking = True
+            End If
 
+
+        Next
+        If Checking = False Then
+            Console.Read()
+        End If
+        Checking = False
 
         'raise body by distance between floor and line
-        If floor.ypos <= BodyRise Then
+        If floor.ypos - 4 <= BodyRise Then
             Body.Bpy1 -= (BodyRise - floor.ypos)
             Body.Bpy2 -= (BodyRise - floor.ypos)
             For x = 0 To 2
@@ -114,36 +373,74 @@
             Body.Bypos1 -= (BodyRise - floor.ypos)
             Body.Bypos2 -= (BodyRise - floor.ypos)
 
+
+            For x = 0 To 2
+                Line(x, 1).LYpos = Body.connections(x).Y
+                Line(x, 0).LYpos = Line(x, 1).LYpos + 100
+                Line(x, 1).LXpos = Body.connections(x).X
+                Line(x, 0).LXpos = Line(x, 1).LXpos
+            Next
+
+            Body.ResetCoM()
         End If
 
-        'check which side leg is on when on floor
-        For x = 0 To GroundLegs
-            If Line(x, 0).CheckFloor(floor) = True And Line(x, 0).Lpx1 < Body.CoM.X Then
-                Line(x, 0).LeftSide = True
-            ElseIf Line(x, 0).CheckFloor(floor) = True And Line(x, 0).Lpx1 > Body.CoM.X Then
-                Line(x, 0).RightSide = True
-            ElseIf Line(x, 0).CheckFloor(floor) = True And Line(x, 0).Lpx1 = Body.CoM.X Then
-                Line(x, 0).RightSide = True
-                Line(x, 0).LeftSide = True
-            Else
-                Line(x, 0).LeftSide = False
-                Line(x, 0).RightSide = False
+        For x = 0 To 2
+            If Line(x, 0).Lpy2 > floor.ypos - 10 Then
+                Checking = True
+            End If
+
+
+        Next
+        If Checking = False Then
+            Console.Read()
+        End If
+        Checking = False
+        Friction = 0
+        NegativeFriction = 0
+        For x = 0 To 2
+            If OldPoints(x) - Line(x, 0).Lpx2 > Friction And Line(x, 0).CheckFloor(floor) = True Then
+                Friction = (OldPoints(x) - Line(x, 0).Lpx2)
+            End If
+            If OldPoints(x) - Line(x, 0).Lpx2 < NegativeFriction And Line(x, 0).CheckFloor(floor) = True Then
+                NegativeFriction = (OldPoints(x) - Line(x, 0).Lpx2)
             End If
         Next
 
-        'find pivot point and fall of it
-        For x = GroundLegs To 0 Step -1
-            If Line(x, 0).LeftSide = True And Line(x, 0).RightSide = False Then
-                Body.FallRight(Line(x, 0).Lp2, g)
-            ElseIf Line(x, 0).LeftSide = False And Line(x, 0).RightSide = True Then
+        Body.Bpx1 += Friction + NegativeFriction
+        Body.Bpx2 += Friction + NegativeFriction
+        For x = 0 To 2
+            Body.connections(x).X += Friction + NegativeFriction
+            Body.StaticConnections(x).X += Friction + NegativeFriction
+        Next
+        Body.Bxpos1 += Friction + NegativeFriction
+        Body.Bxpos2 += Friction + NegativeFriction
 
-            End If
+
+        For x = 0 To 2
+            Line(x, 1).LXpos = Body.connections(x).X
+            Line(x, 0).LXpos = Line(x, 1).LXpos
         Next
-        For x = 0 To GroundLegs
-            If Line(x, 0).LeftSide = False And Line(x, 0).RightSide = True Then
-                Body.FallLeft(Line(x, 0).Lp2, g)
-            End If
-        Next
+
+        'NegativeFriction = 0
+        'Friction = 0
+        'For x = 0 To 2
+        '    If Line(x, 0).Lpx2 - OldPoints(x) < -Friction And Line(x, 0).CheckFloor(floor) = True Then
+        '        '  Friction = -(Line(x, 0).Lpx2 - OldPoints(x)) / 2
+        '    End If
+        '    'If Line(x, 0).Lpx2 - OldPoints(x) > -NegativeFriction And Line(x, 0).CheckFloor(floor) = True Then
+        '    '    NegativeFriction = -(Line(x, 0).Lpx2 - OldPoints(x)) / 2
+        '    'End If
+        'Next
+        ''Friction += NegativeFriction
+        'For x = 0 To 2
+        '    Body.connections(x).X += Friction
+        '    Body.StaticConnections(x).X += Friction
+        'Next
+        'Body.Bxpos1 += Friction
+        'Body.Bxpos2 += Friction
+        'Body.Bpx1 += Friction
+        'Body.Bpx2 += Friction
+
         'set points to body 
         For x = 0 To GroundLegs
             Body.SetPoints(Line(x, 1), x)
@@ -158,12 +455,19 @@
         Next
 
         For x = 0 To 2
-            Line(x, 1).LYpos = Body.Bypos1
+            Line(x, 1).LYpos = Body.connections(x).Y
             Line(x, 0).LYpos = Line(x, 1).LYpos + 100
-            Line(x, 1).LXpos = Body.StaticConnections(x).X
+            Line(x, 1).LXpos = Body.connections(x).X
             Line(x, 0).LXpos = Line(x, 1).LXpos
         Next
 
+        For x = 0 To 2
+            OldPoints(x) = Line(x, 0).Lpx2
+        Next
+
+        If Body.AngleIncrease > 80 Or Body.AngleIncrease < -80 Then
+            Console.ReadLine()
+        End If
         'draw everything and set joint = to end of line
         For y = 0 To Layers
             For x = 0 To GroundLegs
@@ -178,7 +482,7 @@
 
     End Sub
 
+    Private Sub Display_Click(sender As Object, e As EventArgs) Handles Display.Click
 
-
-
+    End Sub
 End Class
